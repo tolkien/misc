@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<node name="/org/freedesktop/HelloWorldObject">
+  <interface name="org.freedesktop.HelloWorldIFace">
+    <method name="hello">
+      <arg type="s" name="str_ret" direction="out" />
+    </method>
+  </interface>
+</node>
