@@ -1,0 +1,5 @@
+# Board definition file for board "i519_rshrcp"
+load_generic_config "unix";
+set_board_info hostname i519
+set_board_info username tolkien
+set_board_info compiler /opt/host/armv5te/bin/armv5te-redhat-linux-gcc

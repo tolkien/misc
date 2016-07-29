@@ -1,0 +1,329 @@
+Index: Makefile
+===================================================================
+RCS file: /mnt/sda/1/cvs/kernel-2.4/Makefile,v
+retrieving revision 1.15.2.5
+diff -u -r1.15.2.5 Makefile
+--- Makefile	6 Feb 2003 03:10:21 -0000	1.15.2.5
++++ Makefile	25 Nov 2003 07:37:43 -0000
+@@ -20,7 +20,7 @@
+ HOSTCC  	= gcc
+ HOSTCFLAGS	= -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer
+ 
+-CROSS_COMPILE 	= /opt/host/armv4l/bin/armv4l-redhat-linux-
++CROSS_COMPILE 	= /opt/host/armv5te/bin/armv5te-redhat-linux-
+ 
+ #
+ # Include the make variables (CC, etc...)
+Index: arch/arm/Makefile
+===================================================================
+RCS file: /mnt/sda/1/cvs/kernel-2.4/arch/arm/Makefile,v
+retrieving revision 1.6.2.7
+diff -u -r1.6.2.7 Makefile
+--- arch/arm/Makefile	13 Jul 2003 12:48:58 -0000	1.6.2.7
++++ arch/arm/Makefile	25 Nov 2003 07:37:43 -0000
+@@ -38,8 +38,7 @@
+ arch-$(CONFIG_CPU_32v3)		:=-D__LINUX_ARM_ARCH__=3 -march=armv3
+ arch-$(CONFIG_CPU_32v4)		:=-D__LINUX_ARM_ARCH__=4 -march=armv4
+ arch-$(CONFIG_CPU_32v5)		:=-D__LINUX_ARM_ARCH__=5 -march=armv5
+-#arch-$(CONFIG_CPU_XSCALE)	:=-D__LINUX_ARM_ARCH__=5 -mcpu=xscale
+-arch-$(CONFIG_CPU_XSCALE)	:=-D__LINUX_ARM_ARCH__=4 -march=armv4 -Wa,-mxscale
++arch-$(CONFIG_CPU_XSCALE)	:=-D__LINUX_ARM_ARCH__=5 -mcpu=xscale
+ 
+ # This selects how we optimise for the processor.
+ tune-y				:=
+@@ -51,12 +50,12 @@
+ tune-$(CONFIG_CPU_ARM926T)	:=-mtune=arm9tdmi
+ tune-$(CONFIG_CPU_SA110)	:=-mtune=strongarm110
+ tune-$(CONFIG_CPU_SA1100)	:=-mtune=strongarm1100
+-#tune-$(CONFIG_CPU_XSCALE)	:=-mtune=xscale
+-tune-$(CONFIG_CPU_XSCALE)	:=-mtune=strongarm
++tune-$(CONFIG_CPU_XSCALE)	:=-mtune=xscale
++#-mfpu=softfpa;:-mfpu=softvfp
+ 
+ CFLAGS_BOOT	:=$(apcs-y) $(arch-y) $(tune-y) -mshort-load-bytes -msoft-float
+ CFLAGS		+=$(apcs-y) $(arch-y) $(tune-y) -mshort-load-bytes -msoft-float
+-AFLAGS		+=$(apcs-y) $(arch-y) -mno-fpu -msoft-float
++AFLAGS		+=$(apcs-y) $(arch-y) -msoft-float -Wa,-mfpu=softvfp
+ 
+ ifeq ($(CONFIG_CPU_26),y)
+ PROCESSOR	:= armo
+Index: arch/arm/kernel/semaphore.c
+===================================================================
+RCS file: /mnt/sda/1/cvs/kernel-2.4/arch/arm/kernel/semaphore.c,v
+retrieving revision 1.3.2.1
+diff -u -r1.3.2.1 semaphore.c
+--- arch/arm/kernel/semaphore.c	13 Jan 2003 18:12:16 -0000	1.3.2.1
++++ arch/arm/kernel/semaphore.c	25 Nov 2003 07:37:43 -0000
+@@ -177,76 +177,76 @@
+  * value in some cases..
+  */
+ #ifdef CONFIG_CPU_26
+-asm("	.align	5				\n\
+-	.globl	__down_failed			\n\
+-__down_failed:					\n\
+-	stmfd	sp!, {r0 - r3, lr}		\n\
+-	mov	r0, ip				\n\
+-	bl	__down				\n\
+-	ldmfd	sp!, {r0 - r3, pc}^		\n\
+-						\n\
+-	.align	5				\n\
+-	.globl	__down_interruptible_failed	\n\
+-__down_interruptible_failed:			\n\
+-	stmfd	sp!, {r0 - r3, lr}		\n\
+-	mov	r0, ip				\n\
+-	bl	__down_interruptible		\n\
+-	mov	ip, r0				\n\
+-	ldmfd	sp!, {r0 - r3, pc}^		\n\
++asm("	.align	5				\n"
++"	.globl	__down_failed			\n"
++"__down_failed:					\n"
++"	stmfd	sp!, {r0 - r3, lr}		\n"
++"	mov	r0, ip				\n"
++"	bl	__down				\n"
++"	ldmfd	sp!, {r0 - r3, pc}^		\n"
++"						\n"
++"	.align	5				\n"
++"	.globl	__down_interruptible_failed	\n"
++"__down_interruptible_failed:			\n"
++"	stmfd	sp!, {r0 - r3, lr}		\n"
++"	mov	r0, ip				\n"
++"	bl	__down_interruptible		\n"
++"	mov	ip, r0				\n"
++"	ldmfd	sp!, {r0 - r3, pc}^		\n"
+ 
+-	.align	5				\n\
+-	.globl	__down_trylock_failed		\n\
+-__down_trylock_failed:				\n\
+-	stmfd	sp!, {r0 - r3, lr}		\n\
+-	mov	r0, ip				\n\
+-	bl	__down_trylock			\n\
+-	mov	ip, r0				\n\
+-	ldmfd	sp!, {r0 - r3, pc}^		\n\
+-						\n\
+-	.align	5				\n\
+-	.globl	__up_wakeup			\n\
+-__up_wakeup:					\n\
+-	stmfd	sp!, {r0 - r3, lr}		\n\
+-	mov	r0, ip				\n\
+-	bl	__up				\n\
+-	ldmfd	sp!, {r0 - r3, pc}^		\n\
+-	");
++"	.align	5				\n"
++"	.globl	__down_trylock_failed		\n"
++"__down_trylock_failed:				\n"
++"	stmfd	sp!, {r0 - r3, lr}		\n"
++"	mov	r0, ip				\n"
++"	bl	__down_trylock			\n"
++"	mov	ip, r0				\n"
++"	ldmfd	sp!, {r0 - r3, pc}^		\n"
++"						\n"
++"	.align	5				\n"
++"	.globl	__up_wakeup			\n"
++"__up_wakeup:					\n"
++"	stmfd	sp!, {r0 - r3, lr}		\n"
++"	mov	r0, ip				\n"
++"	bl	__up				\n"
++"	ldmfd	sp!, {r0 - r3, pc}^		\n"
++	);
+ 
+ #else
+ /* 32 bit version */
+-asm("	.align	5				\n\
+-	.globl	__down_failed			\n\
+-__down_failed:					\n\
+-	stmfd	sp!, {r0 - r3, lr}		\n\
+-	mov	r0, ip				\n\
+-	bl	__down				\n\
+-	ldmfd	sp!, {r0 - r3, pc}		\n\
+-						\n\
+-	.align	5				\n\
+-	.globl	__down_interruptible_failed	\n\
+-__down_interruptible_failed:			\n\
+-	stmfd	sp!, {r0 - r3, lr}		\n\
+-	mov	r0, ip				\n\
+-	bl	__down_interruptible		\n\
+-	mov	ip, r0				\n\
+-	ldmfd	sp!, {r0 - r3, pc}		\n\
+-						\n\
+-	.align	5				\n\
+-	.globl	__down_trylock_failed		\n\
+-__down_trylock_failed:				\n\
+-	stmfd	sp!, {r0 - r3, lr}		\n\
+-	mov	r0, ip				\n\
+-	bl	__down_trylock			\n\
+-	mov	ip, r0				\n\
+-	ldmfd	sp!, {r0 - r3, pc}		\n\
+-						\n\
+-	.align	5				\n\
+-	.globl	__up_wakeup			\n\
+-__up_wakeup:					\n\
+-	stmfd	sp!, {r0 - r3, lr}		\n\
+-	mov	r0, ip				\n\
+-	bl	__up				\n\
+-	ldmfd	sp!, {r0 - r3, pc}		\n\
+-	");
++asm("	.align	5				\n"
++"	.globl	__down_failed			\n"
++"__down_failed:					\n"
++"	stmfd	sp!, {r0 - r3, lr}		\n"
++"	mov	r0, ip				\n"
++"	bl	__down				\n"
++"	ldmfd	sp!, {r0 - r3, pc}		\n"
++"						\n"
++"	.align	5				\n"
++"	.globl	__down_interruptible_failed	\n"
++"__down_interruptible_failed:			\n"
++"	stmfd	sp!, {r0 - r3, lr}		\n"
++"	mov	r0, ip				\n"
++"	bl	__down_interruptible		\n"
++"	mov	ip, r0				\n"
++"	ldmfd	sp!, {r0 - r3, pc}		\n"
++"						\n"
++"	.align	5				\n"
++"	.globl	__down_trylock_failed		\n"
++"__down_trylock_failed:				\n"
++"	stmfd	sp!, {r0 - r3, lr}		\n"
++"	mov	r0, ip				\n"
++"	bl	__down_trylock			\n"
++"	mov	ip, r0				\n"
++"	ldmfd	sp!, {r0 - r3, pc}		\n"
++"						\n"
++"	.align	5				\n"
++"	.globl	__up_wakeup			\n"
++"__up_wakeup:					\n"
++"	stmfd	sp!, {r0 - r3, lr}		\n"
++"	mov	r0, ip				\n"
++"	bl	__up				\n"
++"	ldmfd	sp!, {r0 - r3, pc}		\n"
++	);
+ 
+ #endif
+Index: arch/arm/lib/getuser.S
+===================================================================
+RCS file: /mnt/sda/1/cvs/kernel-2.4/arch/arm/lib/getuser.S,v
+retrieving revision 1.2
+diff -u -r1.2 getuser.S
+--- arch/arm/lib/getuser.S	13 Jan 2003 15:50:01 -0000	1.2
++++ arch/arm/lib/getuser.S	25 Nov 2003 07:37:43 -0000
+@@ -42,14 +42,14 @@
+ 
+ 	.global	__get_user_2
+ __get_user_2:
+-	bic	r2, sp, #0x1f00
+-	bic	r2, r2, #0x00ff
+-	ldr	r2, [r2, #TSK_ADDR_LIMIT]
+-	sub	r2, r2, #2
+-	cmp	r0, r2
++	bic	ip, sp, #0x1f00
++	bic	ip, ip, #0x00ff
++	ldr	ip, [ip, #TSK_ADDR_LIMIT]
++	sub	ip, ip, #2
++	cmp	r0, ip
+ 2:	ldrlsbt	r1, [r0], #1
+-3:	ldrlsbt	r2, [r0]
+-	orrls	r1, r1, r2, lsl #8
++3:	ldrlsbt	ip, [r0]
++	orrls	r1, r1, ip, lsl #8
+ 	movls	r0, #0
+ 	movls	pc, lr
+ 	b	__get_user_bad
+Index: arch/arm/lib/putuser.S
+===================================================================
+RCS file: /mnt/sda/1/cvs/kernel-2.4/arch/arm/lib/putuser.S,v
+retrieving revision 1.1
+diff -u -r1.1 putuser.S
+--- arch/arm/lib/putuser.S	11 Dec 2001 12:31:23 -0000	1.1
++++ arch/arm/lib/putuser.S	25 Nov 2003 07:37:43 -0000
+@@ -18,7 +18,7 @@
+  * Inputs:	r0 contains the address
+  *		r1, r2 contains the value
+  * Outputs:	r0 is the error code
+- *		lr corrupted
++ *		ip, lr corrupted
+  *
+  * No other registers must be altered.  (see include/asm-arm/uaccess.h
+  * for specific ASM register usage).
+@@ -30,11 +30,11 @@
+ 
+ 	.global	__put_user_1
+ __put_user_1:
+-	bic	r2, sp, #0x1f00
+-	bic	r2, r2, #0x00ff
+-	ldr	r2, [r2, #TSK_ADDR_LIMIT]
+-	sub	r2, r2, #1
+-	cmp	r0, r2
++	bic	ip, sp, #0x1f00
++	bic	ip, ip, #0x00ff
++	ldr	ip, [ip, #TSK_ADDR_LIMIT]
++	sub	ip, ip, #1
++	cmp	r0, ip
+ 1:	strlsbt	r1, [r0]
+ 	movls	r0, #0
+ 	movls	pc, lr
+@@ -42,11 +42,11 @@
+ 
+ 	.global	__put_user_2
+ __put_user_2:
+-	bic	r2, sp, #0x1f00
+-	bic	r2, r2, #0x00ff
+-	ldr	r2, [r2, #TSK_ADDR_LIMIT]
+-	sub	r2, r2, #2
+-	cmp	r0, r2
++	bic	ip, sp, #0x1f00
++	bic	ip, ip, #0x00ff
++	ldr	ip, [ip, #TSK_ADDR_LIMIT]
++	sub	ip, ip, #2
++	cmp	r0, ip
+ 2:	strlsbt	r1, [r0], #1
+ 	movls	r1, r1, lsr #8
+ 3:	strlsbt	r1, [r0]
+@@ -56,11 +56,11 @@
+ 
+ 	.global	__put_user_4
+ __put_user_4:
+-	bic	r2, sp, #0x1f00
+-	bic	r2, r2, #0x00ff
+-	ldr	r2, [r2, #TSK_ADDR_LIMIT]
+-	sub	r2, r2, #4
+-	cmp	r0, r2
++	bic	ip, sp, #0x1f00
++	bic	ip, ip, #0x00ff
++	ldr	ip, [ip, #TSK_ADDR_LIMIT]
++	sub	ip, ip, #4
++	cmp	r0, ip
+ 4:	strlst	r1, [r0]
+ 	movls	r0, #0
+ 	movls	pc, lr
+Index: include/asm-arm/uaccess.h
+===================================================================
+RCS file: /mnt/sda/1/cvs/kernel-2.4/include/asm-arm/uaccess.h,v
+retrieving revision 1.4
+diff -u -r1.4 uaccess.h
+--- include/asm-arm/uaccess.h	11 Dec 2001 12:52:01 -0000	1.4
++++ include/asm-arm/uaccess.h	25 Nov 2003 07:37:47 -0000
+@@ -86,7 +86,7 @@
+ 			__get_user_x(__r1, __p, __e, 1, "lr");		\
+ 	       		break;						\
+ 		case 2:							\
+-			__get_user_x(__r1, __p, __e, 2, "r2", "lr");	\
++			__get_user_x(__r1, __p, __e, 2, "ip", "lr");	\
+ 			break;						\
+ 		case 4:							\
+ 	       		__get_user_x(__r1, __p, __e, 4, "lr");		\
+@@ -122,13 +122,13 @@
+ 		register int __e asm("r0");				\
+ 		switch (sizeof(*(p))) {					\
+ 		case 1:							\
+-			__put_user_x(__r1, __p, __e, 1, "r2", "lr");	\
++			__put_user_x(__r1, __p, __e, 1, "ip", "lr");	\
+ 			break;						\
+ 		case 2:							\
+-			__put_user_x(__r1, __p, __e, 2, "r2", "lr");	\
++			__put_user_x(__r1, __p, __e, 2, "ip", "lr");	\
+ 			break;						\
+ 		case 4:							\
+-			__put_user_x(__r1, __p, __e, 4, "r2", "lr");	\
++			__put_user_x(__r1, __p, __e, 4, "ip", "lr");	\
+ 			break;						\
+ 		case 8:							\
+ 			__put_user_x(__r1, __p, __e, 8, "ip", "lr");	\
