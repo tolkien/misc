@@ -4,7 +4,7 @@ _scores = [3.0, 1.0, 0.2]
 scores = []
 
 for i in _scores:
-    scores.append(i / 10)
+    scores.append(i / 1)
 
 print(scores)
 
