@@ -1,4 +1,5 @@
 #!/usr/local/bin/python
+# -*- coding: utf-8 -*-
 import tensorflow as tf
 
 X = tf.placeholder(tf.float32)

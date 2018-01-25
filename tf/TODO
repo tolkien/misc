@@ -14,5 +14,38 @@
  - 빅데이터와 머신러닝에 대한 즐겨찾기 모음
    http://ddmix.blogspot.kr/2015/11/favorites-bigdata-ml.html
 
- - 15. Softmax classifier 의 cost함수 (lec 06-2)
+ - 15. Softmax classifier 의 cost함수 (lec 06-2)
    http://pythonkim.tistory.com/20
+
+2018/ 1/21
+ - set up
+ virtualenv --system-site-packages -p python3 tensorflow
+ source ~/tensorflow/bin/activate
+ easy_install -U pip
+ pip3 install --upgrade tensorflow
+ 
+ - matplotlib error
+  1. in script, add following line
+    import matplotlib
+    matplotlib.use('TkAgg')
+
+  2. or add rc
+    echo "backend: TkAgg" >> ~/.matplotlib/matplotlibrc
+
+  what is backend?
+    https://matplotlib.org/faq/usage_faq.html
+    https://matplotlib.org/faq/osx_framework.html
+    https://stackoverflow.com/questions/33100969/matplotlib-example-code-not-working-on-python-virtual-environment
+
+2018/ 1/25
+ - python 강좌
+   https://dojang.io/mod/page/view.php?id=1059
+ - IDE: sublime_text -> jupyter
+   자꾸 돈 지불하라고 해서 귀찮다.
+ - jupyter 설정
+   python passwd.py > p.txt
+   jupyter notebook --generate-config
+   vi ~/.jupyter/jupyter_notebook_config.py
+   # put p.txt to c.NotebookApp.password = u'<p.txt content>'
+   
+   jupyter notebook

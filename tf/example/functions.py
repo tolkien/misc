@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """출처: http://pythonkim.tistory.com/62?category=574914 [파이쿵]"""
 
 import tensorflow as tf

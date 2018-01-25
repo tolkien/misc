@@ -2,5 +2,9 @@ __pycache__
 git.tensorboard
 git.tensorflow
 *~
+*.pyc
 DeepLearningZeroToAll
 notMNIST
+.ipynb_checkpoints
+board
+udacity
