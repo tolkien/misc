@@ -8,3 +8,5 @@ notMNIST
 .ipynb_checkpoints
 board
 udacity
+logs
+MNIST_data
