@@ -35,3 +35,4 @@
 # R-studio
 .RData
 .Rhistory
+.DS_Store
