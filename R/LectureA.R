@@ -71,6 +71,10 @@ dhyper(2,5,6,3)
 choose(5,2)*choose(6,1)/choose(11,3)
 1-phyper(1,5,6,3)  # P_r[X > 2]
 
+# The Student t Distribution
+# rt(), dt(), pt(), qt()
+qt(1-0.025,16-1)
+
 # quantile
 q1=1:100
 quantile(q1)
