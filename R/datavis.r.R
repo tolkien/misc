@@ -1,3 +1,8 @@
+install.packages("extrafont")
+library(extrafont)
+font_import()
+fonts()
+
 # report 1
 kings = read.table("datavis/chosun\ kings.txt", header=T)
 P <- cumsum(kings$Life)
@@ -19,6 +24,7 @@ library(tm)
 library(wordcloud)
 library(rJava)
 library(KoNLP)
+par(family="Gulim")
 ktext = Corpus(DirSource("datavis/gyoga/",
                          encoding="UTF-8", recursive = T))
 words1 = unlist(sapply(ktext[[1]]$content, extractNoun, USE.NAMES = F))
@@ -46,6 +52,7 @@ gadm1 = readRDS("datavis/KOR_adm1.rds")
 seoul = gadm1[gadm1$NAME_1 == "Seoul",]
 plot(seoul, col="green")
 
+library(sp)
 gadm1 = readRDS("datavis/KOR_adm1.rds")
 plot(gadm1, col="grey")
 pollution = read.table("datavis/pollution.txt", header=T)
