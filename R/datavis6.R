@@ -97,3 +97,100 @@ h = ggplot(climate_kr2, aes(x=year4)) +
   geom_line(aes(y=평균), colour="red") +
   theme_bw()
 h + ylab("") + xlab("") + ylim(-12,33)
+
+# chapter 7 (시계열의 시각화)
+# 막대그래프
+library(ggplot2)
+cb <- read.csv("datavis/data/cb.csv", header=T)
+cb$경상수지 <- cb$경상수지 / 100
+cb$pos <- cb$경상수지 >= 0
+ggplot(cb, aes(x=연도, y=경상수지, fill=pos)) +
+  geom_bar(stat="identity", position="identity",
+           colour="black", size=0.25) +
+  scale_fill_manual(values=c("red", "black"), guide=F) +
+  ylab("경상수지 (억달러)") + theme_bw()
+
+# 누적그래프
+library(reshape2)
+library(plyr)
+pop_kr1 <- read.csv("datavis/data/krpop.csv", header=T)
+pop_kr <- melt(pop_kr1, id="연령대")
+pop_kr$연도 <- as.numeric(substr(pop_kr$variable, 2, 5))
+ggplot(pop_kr, aes(x=연도, y=value/10000, fill=연령대)) +
+  geom_area(colour="black", size=0.1, alpha=0.4) +
+  scale_fill_brewer(palette = "Reds") +
+  ylab("인구 (만명)") +
+  scale_x_continuous(breaks=seq(1960, 2060, 5), expand=c(0,0)) +
+  theme_bw()
+
+pop_kr_p = ddply(pop_kr, "연도", transform, 비중
+                  = value/sum(value) * 100)
+ggplot(pop_kr_p, aes(x=연도, y=비중, fill=연령대)) +
+  geom_area(colour="black", size=0.1, alpha=0.4) +
+  scale_fill_brewer(palette = "Reds") +
+  ylab("인구비중 (%)") +
+  scale_x_continuous(breaks=seq(1960, 2060, 5), expand=c(0,0)) +
+  theme_bw()
+
+gdp_s1 = read.csv("datavis/data/gdp_sh.csv", header = T)
+gdp_s = melt(gdp_s1, id="연도")
+names(gdp_s) <- c("연도", "산업", "비중")
+ggplot(gdp_s, aes(x=연도, y=비중, fill=산업)) +
+  geom_bar(stat="identity") +
+  scale_x_continuous(breaks=seq(1970, 2010, 5)) +
+  theme(panel.background = element_rect(fill="white", colour="gray"),
+        legend.position = "bottom") +
+  ylab("비중 (%)") + xlab("")
+
+# 경로그래프
+library(scales)
+library(zoo)
+library(xts)
+inven1 = read.csv("datavis/data/inven_cy.csv", header=T)
+연도 = seq(as.Date("1980-01-01"), as.Date("2014-06-01"), "month")
+inven = xts(inven1[,2:3], 연도)
+inven$출하지수증감률 = (inven$출하지수 - lag(inven$출하지수,12))
+                        / lag(inven$출하지수,12) * 100
+inven$재고지수증감률 = (inven$재고지수 - lag(inven$재고지수,12))
+                        / lag(inven$재고지수,12) * 100
+inven_2 = inven[337:366]
+ggplot(inven_2, aes(x=출하지수증감률, y=재고지수증감률)) +
+  theme_bw() + geom_path() +
+  geom_point() + ylim(-21,28) + xlim(-21,28) +
+  geom_text(aes(label=substr(index(inven_2),3,7)), size=3,
+            hjust=-0.2, vjust=-0.3, colour="blue") +
+  geom_line(aes(x=inven_2$출하지수증감률, y=inven_2$출하지수증감률, colour="Reds")) +
+  geom_hline(yintercept = 0, colour="gray") +
+  geom_vline(xintercept = 0, colour="gray")
+
+# 채색달력그래프
+library(quantmod)
+library(ggplot2)
+library(reshape2)
+library(plyr)
+library(scales)
+getSymbols("^KS11", src="yahoo")
+KS11$주가변동 = abs((KS11$KS11.Close - lag(KS11$KS11.Close, 1))
+                / lag(KS11$KS11.Close, 1))
+dat <- data.frame(date=index(KS11),KS11)
+dat$year <- as.numeric(as.POSIXlt(dat$date)$year + 1900)
+dat$month <- as.numeric(as.POSIXlt(dat$date)$mon + 1)
+dat$monthf <- factor(dat$month, levels = as.character(1:12),
+  labels=c("1월","2월","3월","4월","5월","6월",
+           "7월","8월","9월","10월","11월","12월"),
+  ordered = T)
+dat$weekday = as.POSIXlt(dat$date)$wday
+dat$weekdayf = factor(dat$weekday, levels=rev(1:7),
+                      labels=rev(c("월","화","수","목","금","토","일")),
+                      ordered = T)
+dat$yearmonth = as.yearmon(dat$date)
+dat$yearmonthf = factor(dat$yearmonth)
+dat$week = as.numeric(format(dat$date, "%W"))
+dat <- ddply(dat,.(yearmonthf), transform,
+             monthweek=1+week-min(week))
+ggplot(dat, aes(monthweek, weekdayf, fill=주가변동)) +
+  geom_tile(colour="white") +
+  facet_grid(year~monthf) +
+  scale_fill_gradient(limits=c(0,12), low="lightgray", high="darkred") +
+  xlab("") + ylab("") +
+  theme(panel.background = element_rect(fill="white", colour="gray"))
