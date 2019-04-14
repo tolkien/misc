@@ -22,3 +22,23 @@ color = c("#FF0000", "#FFFF00", "#00FF00", "#00FFFF",
           "#0000FF", "#FF00FF")
 pie(rep(1,5), col=color, labels=color)
 par(new=T); pie(rep(1,1), col="white", radius=0.5, labels=color)
+
+# page 25
+P <- cumsum(kings$period)
+plot(1:27, P, type="n", xlab="순서", ylab="누적연수",
+     main="조선왕조")
+rect(0, 0, 1, P[1], col="royalblue", border="royalblue")
+for(i in 2:27) {
+  rect(i-1, P[i-1], i, P[i], col="royalblue", border="royalblue")
+}
+segments(0,0, 27, 518, lty="dotted")
+
+# page 26
+plot(1:27, P, type="n", xlab="순서", ylab="누적연수",
+     main="조선왕조")
+polygon(c(0,0,1,1), c(0,P[1],P[1],0))
+for(i in 2:27) {
+  polygon(c(i-1,i-1,i,i), c(P[i-1], P[i], P[i], P[i-1]),
+          col=rainbow(27)[i])
+}
+segments(0, 0, 27, 518, lty="dotted")

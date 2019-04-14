@@ -1,7 +1,9 @@
-install.packages("extrafont")
-library(extrafont)
-font_import()
-fonts()
+#library(tidyverse)
+#library(showtext)  # 글꼴, install.packages("showtext")
+#library(extrafont) # install.packages("extrafont")
+#font_import(prompt = F, pattern = "D2")
+#loadfonts(quiet = F)
+par(family = "AppleGothic")
 
 # report 1
 kings = read.table("datavis/chosun\ kings.txt", header=T)
