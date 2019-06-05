@@ -50,32 +50,25 @@ after =c(5,3,2,1,4,2,2,4,3,5,4,3)
 
 t.test(before, after, paired = TRUE)
 
-#p286, Q17 one-way factorial design, ANOVA
-corex=c("A1","A2","A3","A4","A5")
-B1=c(79,72,51,58,68)
-B2=c(75,66,48,56,65)
-B3=c(69,64,44,51,61)
-B4=c(65,62,41,45,58)
-names(B1)=corex
-koks=rbind(B1,B2,B3,B4)
-library(reshape2)
-m_1 = melt(koks, id="A1")
-m_2 = subset(m_1, select = -c(Var2))
+#p286, Q16 one-way factorial design, ANOVA
+com_A=data.frame(rep('A', 7), c(69, 67, 65, 59, 68, 61, 66))
+com_B=data.frame(rep('B', 6), c(56, 63, 55, 59, 52, 57))
+com_C=data.frame(rep('C', 5), c(71, 72, 70, 68, 74))
+com_label=c('company', 'value')
+names(com_A)=com_label
+names(com_B)=com_label
+names(com_C)=com_label
+satisfy = rbind(com_A, com_B, com_C)
 require(ggplot2)
-ggplot(m_2, aes(x = Var1, y = value)) +
+ggplot(satisfy, aes(x = company, y = value)) +
   geom_boxplot(fill = "grey80", colour = "blue") +
-  scale_x_discrete() + xlab("Tarr Amount") +
-  ylab("Koks pressure")
-m_3 = lm(value ~ Var1, data=m_2)
+  scale_x_discrete() + xlab("Company") +
+  ylab("satisfy index")
+m_3 = lm(value ~ company, data=satisfy)
 summary(m_3)
 anova(m_3)
-m_4 = aov(value ~ Var1, data=m_2)
+m_4 = aov(value ~ company, data=satisfy)
 summary(m_4)
-
-m_20 = subset(m_1, select = -c(Var1))
-m_30 = lm(value ~ Var2, data=m_20)
-summary(m_30)
-anova(m_30)
 
 #p332, Q13 산점도 상관계수 회귀모형 + plot
 used_year =c(1.0,1.5,2.0,2.0,2.0,3.0,3.0,3.2,4.0,4.5,5.0,5.0,5.5)
