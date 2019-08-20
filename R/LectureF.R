@@ -16,7 +16,7 @@ plot(age, height, main="age vs height")
 # y_i = b_0 + b_1*x_i + err_i    i=1,...,n
 # 잔차 = 관측치 - 예측치
 #  sum(r_i^2, 1, n) = sum((y_i - y_i^hat)^2, 1, n)
-#lm(Y ~ X)
+#lm(Y ~ X) -> Linear Model
 lm1 = lm(height~age)
 names(lm1)
 summary(lm1)
