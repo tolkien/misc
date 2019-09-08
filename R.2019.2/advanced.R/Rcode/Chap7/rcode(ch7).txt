@@ -1,0 +1,336 @@
+
+
+# 7 장 분류분석
+
+
+library(nnet)
+library(MASS)
+
+
+names(iris)<- c("SL","SW","PL","PW","SP")
+levels(iris$SP)<-c("st","vc","vg")
+
+swq<- seq(min(iris$SW), max(iris$SW),l=120)
+slq<- seq(min(iris$SL), max(iris$SL),l=120)
+xr<-expand.grid( SW=swq, SL=slq )
+
+
+plot.iris.lda<-function(lda.fit, sym=c("s","c","v"), SPX=iris$SP, color=0, line=0, border=0 ){
+      PSP<-predict(lda.fit)$class
+      swq<- seq(min(iris$SW), max(iris$SW),l=120)
+      slq<- seq(min(iris$SL), max(iris$SL),l=120)
+      if(color==0) {
+             with(iris, plot(SW,SL, pch=sym[SPX]))
+             with(iris[SPX!=PSP,], points(SW,SL, cex=2.5 ))
+      }
+      if( (color==1)|(border==1) ) {     
+             xr<-expand.grid( SW=swq, SL=slq )
+             prd<- predict(lda.fit, newdata=xr)
+      }
+      if(color==1){
+             with(xr, plot(SW,SL, cex=0.02, col=prd$class ))
+             with(iris, points(SW,SL, pch=16, col=SPX ) )
+             with(iris[SPX!=PSP,], points(SW,SL, pch=16, col=SPX[SPX!=PSP]))
+             with(iris[SPX!=PSP,], points(SW,SL, col=PSP[SPX!=PSP], cex=2, lwd=2))
+       }
+      gmn<-lda.fit$means
+      with(as.data.frame(gmn), points(SW,SL, cex=3, pch="+"))
+      points(mean(gmn[,1]),mean(gmn[,2]), cex=3, pch=8, lwd=2)
+      if( line==1) {
+            cp<-as.matrix(coef(lda.fit)[,1],2,)
+            tmp<- as.matrix(iris[, c("SW","SL")] ) %*% cp
+            incpt<- mean(tapply(tmp, SPX, mean)[1:2])
+            lines(swq, (incpt-cp[1]*swq)/cp[2], lwd=2, lty=2, col="blue" )
+     }
+     if( border==1 ){
+            post01<- class.ind(max.col(prd$post))
+            apply(post01, 2, function(x) contour(swq,slq, matrix(x,120,),
+            levels=0.5, lwd=2, col="brown", labels="", add=TRUE))
+    }
+}
+
+
+
+plot.iris.discriminant<-function(lda.fit,  lda.prd=lda.fit , color=0){
+    prd<- predict(lda.fit)
+    if( class(lda.prd)[1]=="lda" ) prdqc<-predict(lda.prd)$class
+    if( class(lda.prd)[1]=="qda" ) prdqc<-predict(lda.prd)$class
+    if( class(lda.prd)[1]=="multinom" ) prdqc<-predict(lda.prd)
+    if(color==1 ) {
+        plot(prd$x, pch=16, col=iris$SP )
+        points(prd$x[prdqc!=iris$SP,], cex=1.8, col=prdqc[prdqc!=iris$SP]) 
+    }
+    if(color==0) {
+        plot(prd$x, pch=c("s","c","v")[iris$SP] )
+        points(prd$x[prdqc!=iris$SP,], cex=2.5) 
+    }
+    lines(par()$usr[1:2], c(0,0), lty=2)
+    lines(c(0,0),par()$usr[3:4], lty=2)
+}
+
+
+plot.iris.mnom<-function(mfit,  border=1, color=0, bg=0 ){
+     SPX<-iris$SP 
+     if(class(mfit)[1]=="multinom" ) PSP<-predict(mfit)  
+     if(class(mfit)[1]=="svm.formula" ) PSP<-predict(mfit)  
+     if(class(mfit)[1]=="nnet.formula" ) PSP<- factor(levels(SPX)[max.col(predict(mfit))])  
+ 
+      swq<- seq(min(iris$SW), max(iris$SW),l=120)
+      if((bg==1)|(border==1)) {
+              slq<- seq(min(iris$SL), max(iris$SL),l=120)
+              xr<- expand.grid( SW=swq, SL=slq )
+      } 
+      if(color==0) {
+             with(iris, plot(SW,SL, pch=c("s","c","v")[SP]))
+             with(iris[SPX!=PSP,], points(SW,SL, cex=2.5 ))
+      }
+      if(color==1){
+          with(iris, plot(SW,SL, type="n") )
+          if(bg==1) {
+                 if(class(mfit)[1]=="multinom" )  with(xr, points(SW,SL, cex=0.02, col=predict(mfit, xr) ) )
+                 if(class(mfit)[1]=="svm.formula" ) with(xr, points(SW,SL, cex=0.02, col=predict(mfit, xr) ) )
+                 if(class(mfit)[1]=="nnet.formula" ) {
+                 PSPX<-factor(levels(SPX)[max.col(predict(mfit, xr))])
+                 with(xr, points(SW,SL, cex=0.02, col=PSPX ) )
+                 } 
+          }
+          with(iris, points(SW,SL, pch=16, col=SP ) )
+          with(iris[SPX!=PSP,], points(SW,SL, pch=16, col=SPX[SPX!=PSP]))
+          with(iris[SPX!=PSP,], points(SW,SL, col=PSP[SPX!=PSP], cex=2, lwd=2))            
+       }
+
+     if( border==1 ){
+            if(class(mfit)[1]=="nnet.formula" ) { prd.pr<- predict(mfit, xr);  prd<- max.col(prd.pr) }
+            if(class(mfit)[1]=="multinom" )  prd<- predict(mfit, xr)  
+           if(class(mfit)[1]=="svm.formula" ) prd<- predict(mfit, xr)  
+           apply(class.ind(prd), 2, function(x) contour(swq,slq, matrix(x,120,),
+            levels=0.5, lwd=2, col="brown", labels="", add=TRUE))
+    }
+}
+
+
+##################
+
+
+#  R 7.1
+
+newSP<-iris$SP
+newSP[101:150]<-iris$SP[51:100]
+newSP<- newSP[, drop=TRUE]
+
+( iris2a<-lda(newSP~SW+SL, prior=c(1,1)/2, data=iris ) ) 
+( iris2b<-lda(newSP~SW+SL, data=iris ) )
+
+par(mfrow=c(1,2))  # for black and white
+plot.iris.lda(iris2a, c("s","c"), newSP, line=1, border=1) 
+plot.iris.lda(iris2b, c("s","c"), newSP, line=1, border=1) 
+
+table(iris$SP, newSP)
+table(newSP, predict(iris2a)$class)
+table(newSP, predict(iris2b)$class)
+
+
+
+# R 7.2,   R 7.3
+
+( iris3a<-lda(SP~SW+SL,data=iris)  )   # LDA   
+iris3q<-qda(SP~SW+SL, data=iris)   # QDA
+( iris3m<-multinom(SP~SW+SL,data=iris)  ) # LRA  
+
+table(iris$SP, predict(iris3a)$class )
+table(iris$SP, predict(iris3q)$class )
+table(iris$SP, predict(iris3m) )
+
+par(mfrow=c(1,3))
+
+plot.iris.lda(iris3a, border=1)  
+plot.iris.lda(iris3q,  border=1)  
+plot.iris.mnom(iris3m,  border=1)  
+
+plot.iris.lda(iris3a, border=1 ,color=1)  
+plot.iris.lda(iris3q,  border=1, color=1)  
+plot.iris.mnom(iris3m,  border=1, color=1, bg=1)  
+
+
+
+# R 7.4
+
+par(mfrow=c(1,1))
+
+plot.iris.mnom(iris3m,border=0)
+swq<- seq(min(iris$SW), max(iris$SW),l=120)
+rc<- coef(iris3m)[2,] - coef(iris3m)[1,]
+lines(swq, -(rc[1]+swq*rc[2])/rc[3])
+
+
+# R 7.5
+
+iris4<-lda(SP~. , data=iris)            #  LDA
+iris4q<-qda(SP~. , data=iris)         #  QDA
+iris4m<-multinom(SP~., data=iris)   # Logistic
+
+table(iris$SP, predict(iris4)$class )
+table(iris$SP, predict(iris4q)$class )
+table(iris$SP, predict(iris4m) )
+
+par(mfrow=c(1,2))
+
+plot.iris.discriminant(iris3a)
+plot.iris.discriminant(iris4)
+
+
+# plot.iris.mnom(iris3m, border=1)
+# plot.iris.mnom(iris3m, border=1, color=1,bg=1)
+
+# par(mfrow=c(1,3))
+
+# plot.iris.discriminant(iris4)
+# plot.iris.discriminant(iris4, iris4q)
+# plot.iris.discriminant(iris4, iris4m)
+
+
+
+# R 7.6
+
+library(nnet)
+
+irx <- iris[,-5]
+spc <- class.ind( iris$SP )
+spc[c(1,51,101),]
+head(irx)
+irx3n1 <- nnet(spc~ SW+SL  , data=irx, size = 1, rang = 0.1, decay = 5e-4, maxit = 300)
+irx3n2 <- nnet(spc~ SW+SL  , data=irx, size = 2, rang = 0.1, decay = 5e-4, maxit = 300 ) 
+
+trunc(nnetHess(irx3n2,irx,spc, rep(1,150)/150), 5)
+table(max.col(spc), max.col(predict(irx3n1) ) )
+table(max.col(spc), max.col(predict(irx3n2) ) )
+
+par(mfrow=c(1,2))
+plot.iris.mnom(irx3n1)
+plot.iris.mnom(irx3n2)
+
+
+
+# irx3n3 <- nnet(spc~ SW+SL  , data=irx, size = 3, rang = 0.1, decay = 5e-4, maxit = 300) 
+#  table(max.col(spc), max.col(predict(irx3n3) ) )
+
+
+# R 7.7
+
+par(mfrow=c(1,2))
+irx3n5 <- nnet(spc~ SW+SL  , data=irx, size = 5, rang = 0.1, decay = 5e-4, maxit = 300 )  
+irx3n6 <- nnet(spc~ SW+SL  , data=irx, size = 5, rang = 0.1, decay = 0.01, maxit = 300 )  
+plot.iris.mnom(irx3n5)
+plot.iris.mnom(irx3n6)
+
+
+
+# R 7.8
+
+library(rpart)
+
+( fit <- rpart(Kyphosis ~ Age + Number + Start, data = kyphosis) )
+
+plot(fit)
+text(fit)
+
+
+# 그림 7.9
+
+with(kyphosis, plot(Age, Start, type='n'))
+with(kyphosis, points(Age, Start, pch=c("A","P")[Kyphosis], col=Kyphosis ))
+with(kyphosis, lines(c(0,200),c(8.5,8.5)))
+with(kyphosis, lines(c(0,200),c(14.5,14.5)))
+with(kyphosis, lines(c(55,55),c(0,18)))
+with(kyphosis, lines(c(111,111),c(0,18))) 
+
+
+# R 7.9
+
+xrp<-expand.grid(SP=unique(iris$SP), SW=swq)
+iris7t1<-rpart(SL~SP+SW, data=iris)
+iris7t2<-rpart(SL~SP+SW, cp=1/1000, data=iris)
+
+plot(iris7t1); text(iris7t1)
+plot(iris7t2); text(iris7t2)
+iris7t1$cp
+
+with(iris, plot(SW,SL, pch=c('s','c','v')[SP]))
+points( xrp$SW, predict(iris7t1,xrp), pch=16, cex=0.5, col=xrp$SP)
+
+with(iris, plot(SW,SL,pch=c('s','c','v')[SP]))
+points( xrp$SW, predict(iris7t2,xrp), pc=16, cex=0.5, col=xrp$SP)
+
+
+
+# R 7.10
+
+iris7t3<-rpart(SP~SW+SL, data=iris)
+plot(iris7t3); text(iris7t3)
+
+with(iris, plot(SW,SL, pch=c('s','c','v')[SP] ))
+PSP=unique(iris$SP)[max.col(predict(iris7t3))]
+with(iris[PSP!=iris$SP,], points(SW, SL, cex=1.8 ))
+prd01<- class.ind(max.col(predict(iris7t3, xr)))
+apply(prd01, 2, function(x) contour(swq,slq, matrix(x,120,),
+     levels=0.5, lwd=2, col="brown", labels="", add=TRUE))
+
+
+
+# 그림 7.13
+
+pwq<- seq(min(iris$PW), max(iris$PW),l=120)
+plq<- seq(min(iris$PL), max(iris$PL),l=120)
+xr2<- expand.grid(PW=pwq,PL=plq)
+xr2<- cbind(xr2, SW=rep(mean(iris$SW),14400), SL=rep(mean(iris$SL),14400) )
+
+iris7t4<-rpart(SP~., data=iris)
+plot(iris7t4); text(iris7t4)
+
+with(iris, plot(PW,PL, pch=c('s','c','v')[SP] ))
+
+PSP=unique(iris$SP)[max.col(predict(iris7t4))]
+with(iris[PSP!=iris$SP,], points(PW, PL, cex=1.8 ))
+prd01<- class.ind(max.col(predict(iris7t4, xr2)))
+apply(prd01, 2, function(x) contour(pwq,plq, matrix(x,120,),
+     levels=0.5, lwd=2, col="brown", labels="", add=TRUE))
+
+
+table(iris$SP,PSP)
+
+
+
+
+##  SVM
+
+
+# R 7.11 
+
+library(e1071)
+
+iris9s2a<- svm(SP ~ SW+SL , data =iris, cost = 100, gamma = 1)
+
+tune(svm, SP~ SW+SL, data = iris, 
+              ranges = list(gamma = 2^(-1:1), cost = 2^(2:4)),
+              tunecontrol = tune.control(sampling = "fix")       )
+
+iris9s2b<- svm(SP ~ SW+SL , data =iris, cost =4, gamma = 1)
+
+iris9s2c<- svm(SP ~ SW+SL , data =iris, cost = 1, gamma = 0.1)
+
+tune(svm, SP~., data = iris, 
+              ranges = list(gamma = 2^(-4:4), cost = 2^(3:7)),
+              tunecontrol = tune.control(sampling = "fix")       )
+  
+iris9s4<- svm(SP ~ ., data =iris, cost = 8, gamma =0.2)
+
+table(iris$SP, predict(iris9s2a))
+table(iris$SP, predict(iris9s2b))
+table(iris$SP, predict(iris9s2c))
+table(iris$SP, predict(iris9s4))
+ 
+par(mfrow=c(1,3))
+plot.iris.mnom(iris9s2a)
+plot.iris.mnom(iris9s2b)
+plot.iris.mnom(iris9s2c)
+

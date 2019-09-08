@@ -1,0 +1,201 @@
+"sex" "ses" "type" "prog" "read" "write" "math" "sci" "soc" "honors" "awards"
+"1" "f" "low" "public" "vocation" 34 44 40 39 41 "not enrolled" 0
+"2" "f" "middle" "public" "vocation" 40 40 32 44 39 "not enrolled" 0
+"3" "m" "low" "public" "academic" 63 63 48 65 56 "enrolled" 3
+"4" "f" "low" "public" "academic" 44 50 41 39 51 "not enrolled" 1
+"5" "m" "low" "public" "general" 48 39 44 43 32 "not enrolled" 0
+"6" "f" "low" "public" "academic" 47 41 46 40 41 "not enrolled" 0
+"7" "m" "middle" "public" "academic" 57 55 61 49 50 "not enrolled" 1
+"8" "f" "low" "public" "academic" 41 45 50 44 49 "not enrolled" 0
+"9" "m" "middle" "public" "vocation" 48 49 52 44 51 "not enrolled" 0
+"10" "f" "middle" "public" "general" 45 55 51 51 63 "not enrolled" 1
+"11" "m" "middle" "public" "academic" 34 44 46 41 37 "not enrolled" 0
+"12" "m" "middle" "public" "vocation" 35 46 47 40 48 "not enrolled" 0
+"13" "f" "middle" "public" "vocation" 49 45 38 46 59 "not enrolled" 0
+"14" "m" "high" "public" "academic" 49 41 54 41 58 "not enrolled" 0
+"15" "m" "high" "public" "vocation" 40 39 42 25 42 "not enrolled" 0
+"16" "m" "low" "public" "vocation" 47 31 44 36 36 "not enrolled" 0
+"17" "m" "low" "public" "vocation" 47 31 44 36 36 "enrolled" 0
+"18" "m" "middle" "public" "vocation" 50 33 49 45 35 "not enrolled" 0
+"19" "f" "low" "public" "academic" 45 39 47 41 39 "not enrolled" 0
+"20" "m" "high" "public" "academic" 61 54 58 60 61 "not enrolled" 1
+"21" "m" "middle" "public" "general" 43 43 59 48 48 "enrolled" 0
+"22" "m" "middle" "public" "vocation" 44 37 39 58 47 "not enrolled" 0
+"23" "f" "low" "public" "academic" 65 67 66 57 71 "enrolled" 5
+"24" "m" "middle" "public" "academic" 52 62 67 45 46 "enrolled" 2
+"25" "f" "middle" "public" "vocation" 47 44 42 42 36 "not enrolled" 0
+"26" "f" "high" "public" "academic" 60 60 62 61 49 "not enrolled" 1
+"27" "m" "middle" "public" "academic" 53 61 61 57 56 "enrolled" 3
+"28" "f" "middle" "public" "general" 39 53 54 50 41 "not enrolled" 1
+"29" "m" "low" "public" "general" 52 44 49 55 41 "not enrolled" 0
+"30" "f" "middle" "public" "general" 45 55 51 51 63 "not enrolled" 1
+"31" "f" "middle" "private" "general" 55 59 54 43 57 "not enrolled" 1
+"32" "f" "high" "public" "vocation" 48 67 67 64 58 "enrolled" 7
+"33" "f" "low" "public" "academic" 59 64 74 55 56 "enrolled" 5
+"34" "m" "middle" "public" "general" 43 43 59 48 48 "not enrolled" 0
+"35" "f" "low" "private" "general" 59 56 52 49 53 "not enrolled" 1
+"36" "f" "low" "public" "general" 44 49 44 35 51 "not enrolled" 0
+"37" "f" "low" "public" "vocation" 41 47 40 39 51 "not enrolled" 0
+"38" "m" "low" "public" "academic" 45 57 50 31 56 "not enrolled" 2
+"39" "f" "high" "public" "academic" 66 67 67 61 66 "enrolled" 7
+"40" "m" "low" "public" "general" 42 39 41 52 39 "not enrolled" 0
+"41" "m" "middle" "public" "academic" 50 40 45 55 56 "enrolled" 0
+"42" "f" "middle" "private" "vocation" 45 50 57 45 57 "not enrolled" 1
+"43" "f" "low" "public" "academic" 46 37 44 41 48 "not enrolled" 0
+"44" "f" "low" "public" "vocation" 47 62 45 34 46 "enrolled" 3
+"45" "f" "low" "public" "vocation" 36 37 40 29 27 "not enrolled" 0
+"46" "f" "low" "public" "academic" 45 56 42 33 41 "not enrolled" 2
+"47" "f" "low" "public" "academic" 48 48 48 32 42 "not enrolled" 0
+"48" "m" "middle" "public" "academic" 57 55 52 50 51 "not enrolled" 2
+"49" "m" "high" "public" "vocation" 51 39 41 47 49 "not enrolled" 0
+"50" "m" "middle" "public" "general" 50 61 43 52 62 "not enrolled" 2
+"51" "f" "high" "public" "general" 43 38 43 31 39 "not enrolled" 0
+"52" "f" "low" "public" "academic" 51 45 54 54 68 NA 0
+"53" "m" "middle" "public" "vocation" 34 37 46 39 31 "not enrolled" 0
+"54" "f" "low" "private" "general" 49 52 47 48 54 "not enrolled" 1
+"55" "f" "middle" "private" "academic" 52 49 49 44 61 "not enrolled" 0
+"56" "f" "middle" "public" "general" 39 52 55 48 41 "not enrolled" 0
+"57" "f" "middle" "public" "academic" 71 65 72 66 56 "enrolled" 5
+"58" "m" "middle" "public" "vocation" 53 43 39 44 41 "not enrolled" 0
+"59" "f" "middle" "public" "academic" 65 67 63 55 71 "enrolled" 7
+"60" "m" "middle" "public" "academic" 55 65 50 62 62 "enrolled" 3
+"61" "f" "high" "public" "academic" 76 63 60 67 66 "enrolled" 4
+"62" "m" "high" "public" "general" 65 67 46 65 68 "enrolled" 5
+"63" "f" "low" "public" "general" 52 65 60 56 51 "enrolled" 5
+"64" "f" "high" "public" "vocation" 51 51 45 60 36 "not enrolled" 0
+"65" "f" "middle" "public" "academic" 55 54 66 42 56 "not enrolled" 1
+"66" "f" "middle" "public" "vocation" 68 62 56 50 51 "enrolled" 3
+"67" "m" "low" "public" "vocation" 37 37 42 33 32 "enrolled" 0
+"68" "m" "middle" "public" "academic" 73 67 71 63 66 "enrolled" 7
+"69" "f" "low" "public" "vocation" 43 45 40 40 32 "not enrolled" 0
+"70" "m" "low" "public" "general" 57 53 42 48 57 "not enrolled" 1
+"71" "f" "middle" "public" "general" 57 62 56 58 66 "enrolled" 3
+"72" "f" "middle" "public" "vocation" 42 54 47 47 46 "not enrolled" 1
+"73" "f" "middle" "public" "general" 50 52 53 39 56 "not enrolled" 1
+"74" "f" "middle" "public" "academic" 56 49 51 50 59 "not enrolled" 1
+"75" "m" "middle" "public" "vocation" 62 47 53 55 63 "not enrolled" 0
+"76" "m" "high" "public" "academic" 46 51 50 52 58 "not enrolled" 2
+"77" "f" "low" "public" "academic" 63 58 49 42 65 "not enrolled" 1
+"78" "f" "middle" "public" "academic" 39 54 54 53 41 NA 1
+"79" "f" "middle" "public" "academic" 60 62 49 50 51 "enrolled" 3
+"80" "m" "high" "private" "general" 65 62 68 66 66 "enrolled" 3
+"81" "m" "low" "public" "academic" 61 42 57 65 43 "not enrolled" 2
+"82" "f" "high" "public" "academic" 68 62 65 69 61 "enrolled" 3
+"83" "f" "middle" "public" "vocation" 48 64 43 57 30 "enrolled" 1
+"84" "m" "middle" "public" "general" 63 57 54 58 51 "not enrolled" 2
+"85" "m" "middle" "public" "general" 53 40 59 52 45 "not enrolled" 0
+"86" "m" "high" "public" "general" 43 33 54 59 33 "not enrolled" 1
+"87" "m" "middle" "public" "general" 64 57 55 60 50 "not enrolled" 2
+"88" "f" "high" "public" "academic" 66 60 62 69 65 "enrolled" 3
+"89" "f" "low" "public" "vocation" 37 37 40 53 31 "not enrolled" 0
+"90" "f" "high" "public" "academic" 41 54 50 50 52 "not enrolled" 1
+"91" "f" "high" "public" "vocation" 49 47 58 45 46 "not enrolled" 0
+"92" "f" "high" "public" "general" 52 67 57 63 61 "enrolled" 7
+"93" "f" "high" "public" "academic" 74 69 61 59 64 "enrolled" 6
+"94" "m" "high" "public" "academic" 56 49 62 60 58 "not enrolled" 1
+"95" "m" "high" "public" "academic" 73 60 71 61 71 "enrolled" 2
+"96" "f" "high" "public" "academic" 65 55 63 57 57 "not enrolled" 2
+"97" "m" "high" "public" "academic" 61 52 57 56 59 "not enrolled" 2
+"98" "m" "low" "public" "vocation" 59 62 49 53 36 "enrolled" 2
+"99" "f" "high" "public" "vocation" 50 52 45 58 36 "not enrolled" 1
+"100" "f" "high" "public" "academic" 64 63 73 68 71 "enrolled" 6
+"101" "f" "high" "public" "academic" 60 62 67 50 56 "enrolled" 3
+"102" "m" "high" "public" "academic" 52 41 51 53 56 "not enrolled" 0
+"103" "m" "high" "public" "academic" 76 50 62 66 61 "not enrolled" 2
+"104" "m" "high" "public" "general" 54 63 57 55 46 "enrolled" 4
+"105" "f" "middle" "public" "academic" 50 41 45 44 56 "not enrolled" 0
+"106" "f" "middle" "public" "vocation" 36 43 37 43 41 "not enrolled" 0
+"107" "m" "low" "public" "vocation" 48 40 47 44 28 "not enrolled" 0
+"108" "m" "middle" "public" "general" 35 31 41 34 35 "not enrolled" 0
+"109" "f" "middle" "public" "general" 41 40 43 44 41 "not enrolled" 0
+"110" "f" "middle" "public" "vocation" 52 56 52 52 62 "not enrolled" 2
+"111" "f" "low" "public" "general" 38 52 37 49 34 "not enrolled" 0
+"112" "f" "middle" "public" "academic" 52 59 48 55 61 "not enrolled" 2
+"113" "f" "low" "public" "academic" 61 59 49 44 66 "not enrolled" 2
+"114" "m" "high" "public" "academic" 66 64 60 57 62 "enrolled" 3
+"115" "m" "low" "public" "general" 44 49 45 50 54 "enrolled" 0
+"116" "f" "middle" "public" "academic" 57 59 54 50 56 NA 2
+"117" "m" "high" "public" "vocation" 33 47 40 41 56 "not enrolled" 0
+"118" "f" "middle" "public" "general" 57 60 60 56 63 "enrolled" 3
+"119" "m" "middle" "public" "general" 63 57 54 58 51 "not enrolled" 2
+"120" "f" "high" "public" "academic" 63 52 54 50 51 "not enrolled" 1
+"121" "f" "middle" "private" "vocation" 66 58 52 65 63 "not enrolled" 2
+"122" "f" "middle" "public" "academic" 51 60 57 53 66 "not enrolled" 2
+"123" "m" "high" "public" "general" 68 59 56 63 66 "not enrolled" 2
+"124" "f" "low" "public" "vocation" 42 54 41 42 41 "not enrolled" 1
+"125" "f" "low" "public" "academic" 68 64 59 57 58 "enrolled" 3
+"126" "m" "middle" "public" "general" 42 31 57 47 51 "not enrolled" 0
+"127" "m" "high" "public" "academic" 63 59 57 55 56 "not enrolled" 2
+"128" "m" "high" "public" "academic" 39 32 40 48 40 "not enrolled" 0
+"129" "f" "low" "public" "general" 46 43 48 46 51 "not enrolled" 0
+"130" "f" "high" "public" "general" 43 54 55 55 46 "not enrolled" 1
+"131" "m" "high" "public" "academic" 65 59 57 46 66 "not enrolled" 2
+"132" "m" "middle" "public" "academic" 73 62 72 67 68 "enrolled" 5
+"133" "m" "middle" "public" "vocation" 50 31 40 34 31 "enrolled" 0
+"134" "m" "low" "public" "vocation" 44 44 39 34 46 "not enrolled" 0
+"135" "f" "low" "public" "vocation" 61 59 63 53 67 "enrolled" 2
+"136" "m" "middle" "public" "academic" 67 60 71 65 50 "not enrolled" 2
+"137" "f" "high" "public" "academic" 63 66 67 54 60 "enrolled" 5
+"138" "m" "high" "public" "academic" 54 63 57 55 46 "enrolled" 4
+"139" "f" "middle" "public" "academic" 68 59 61 55 71 "not enrolled" 2
+"140" "m" "middle" "public" "vocation" 44 43 38 50 28 "not enrolled" 0
+"141" "m" "high" "public" "vocation" 63 44 47 53 56 "not enrolled" 0
+"142" "f" "middle" "public" "vocation" 47 42 53 38 51 "not enrolled" 0
+"143" "m" "middle" "public" "vocation" 63 63 75 72 66 "enrolled" 4
+"144" "m" "high" "public" "general" 61 64 57 63 65 "enrolled" 5
+"145" "f" "middle" "public" "vocation" 40 45 36 34 47 "not enrolled" 0
+"146" "m" "high" "public" "academic" 55 60 62 65 65 NA 5
+"147" "f" "low" "public" "academic" 46 64 51 52 63 "enrolled" 1
+"148" "f" "middle" "public" "vocation" 43 59 53 49 59 "not enrolled" 2
+"149" "m" "low" "public" "general" 63 49 49 66 46 "not enrolled" 0
+"150" "m" "middle" "public" "vocation" 43 42 59 70 30 "not enrolled" 0
+"151" "f" "middle" "public" "vocation" 49 47 53 50 48 "not enrolled" 0
+"152" "f" "high" "public" "academic" 55 57 56 58 61 "not enrolled" 2
+"153" "f" "middle" "public" "vocation" 38 30 42 39 51 "not enrolled" 0
+"154" "m" "high" "public" "academic" 65 66 66 60 64 "enrolled" 5
+"155" "m" "middle" "public" "general" 44 46 47 37 50 "not enrolled" 0
+"156" "f" "middle" "public" "academic" 50 58 55 61 59 "not enrolled" 2
+"157" "m" "middle" "public" "general" 67 61 60 75 64 "not enrolled" 2
+"158" "f" "middle" "public" "general" 52 52 57 51 51 "not enrolled" 1
+"159" "m" "high" "public" "academic" 56 61 55 50 60 "enrolled" 2
+"160" "m" "middle" "public" "academic" 54 66 54 52 60 "enrolled" 3
+"161" "f" "low" "public" "academic" 57 60 74 59 61 "enrolled" 4
+"162" "f" "middle" "public" "vocation" 58 54 39 63 56 NA 0
+"163" "f" "low" "public" "academic" 54 58 64 59 56 "not enrolled" 1
+"164" "m" "middle" "public" "vocation" 31 37 46 40 46 "not enrolled" 0
+"165" "m" "low" "public" "vocation" 35 48 52 59 38 "not enrolled" 0
+"166" "f" "middle" "public" "academic" 50 59 54 62 52 "not enrolled" 2
+"167" "m" "middle" "public" "general" 62 48 36 68 43 "not enrolled" 1
+"168" "m" "middle" "public" "academic" 52 54 57 55 51 "not enrolled" 1
+"169" "m" "low" "public" "general" 56 57 65 70 45 "not enrolled" 2
+"170" "m" "high" "public" "academic" 49 62 59 71 66 "enrolled" 2
+"171" "m" "middle" "public" "academic" 60 52 60 56 66 "not enrolled" 1
+"172" "f" "middle" "public" "academic" 47 52 57 53 61 "not enrolled" 1
+"173" "f" "low" "public" "general" 49 61 59 62 49 "enrolled" 2
+"174" "m" "middle" "private" "academic" 70 60 70 66 55 "not enrolled" 2
+"175" "f" "high" "private" "general" 34 59 42 51 42 "not enrolled" 2
+"176" "m" "middle" "private" "academic" 45 45 43 40 52 "not enrolled" 0
+"177" "m" "middle" "private" "academic" 55 59 62 58 51 "not enrolled" 2
+"178" "m" "middle" "private" "vocation" 48 57 57 57 44 "not enrolled" 1
+"179" "f" "middle" "private" "academic" 47 65 60 50 56 "enrolled" 5
+"180" "f" "high" "private" "academic" 71 65 69 58 71 "enrolled" 5
+"181" "m" "middle" "private" "academic" 52 48 46 56 63 "not enrolled" 1
+"182" "f" "middle" "private" "academic" 46 51 44 44 49 "not enrolled" 1
+"183" "m" "middle" "private" "academic" 61 60 47 57 69 "not enrolled" 2
+"184" "f" "middle" "private" "vocation" 51 52 53 56 56 "not enrolled" 0
+"185" "m" "middle" "private" "academic" 65 55 56 57 42 "not enrolled" 2
+"186" "f" "middle" "private" "academic" 57 62 63 55 41 "enrolled" 3
+"187" "f" "middle" "private" "general" 57 41 57 55 52 "not enrolled" 0
+"188" "f" "high" "private" "academic" 65 64 58 57 62 "enrolled" 1
+"189" "m" "middle" "private" "academic" 47 59 63 53 46 "not enrolled" 2
+"190" "f" "middle" "private" "academic" 47 59 54 58 46 "not enrolled" 2
+"191" "f" "high" "private" "academic" 45 54 42 49 63 "not enrolled" 0
+"192" "m" "high" "private" "academic" 65 67 63 66 71 "enrolled" 7
+"193" "f" "middle" "private" "academic" 45 48 49 38 49 "not enrolled" 0
+"194" "f" "high" "private" "academic" 63 63 69 61 61 "enrolled" 4
+"195" "m" "middle" "private" "general" 57 56 61 57 57 "not enrolled" 2
+"196" "f" "high" "private" "academic" 62 64 56 56 62 "enrolled" 2
+"197" "m" "high" "private" "academic" 50 44 50 35 62 "not enrolled" 0
+"198" "f" "high" "private" "academic" 48 62 49 64 31 "enrolled" 2
+"199" "m" "high" "private" "academic" 52 60 52 62 61 "not enrolled" 2
+"200" "f" "low" "public" "academic" 47 46 49 33 41 "not enrolled" 0

@@ -22,10 +22,12 @@ tosscoin(1, makespace = T)
 
 # example 2-15
 S=rolldie(1, makespace = T)
-A=subset(S, X1==c(2,4,6))
-B=subset(S, X1==c(3,6))
+A=subset(S, X1%in%c(2,4,6))
+B=subset(S, X1%in%c(3,6))
 Prob(A)
 Prob(B)
 Prob(union(A,B))
 Prob(intersect(A,B))
 Prob(setdiff(A,B))
+# program 3-1
+Prob(intersect(A,B)/Prob(B))

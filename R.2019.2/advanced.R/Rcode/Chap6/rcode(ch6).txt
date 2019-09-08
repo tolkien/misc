@@ -1,0 +1,354 @@
+
+
+# 예 6.1
+
+ x <-  1:10
+ y <-  1+2*x+rnorm(10)
+ # (A, B) and (C, D) show the same results
+ lm(y ~ x)     #  A 
+ lm(y ~ 1+x)  #  B
+ lm(y ~ 0+x)  #  C
+ lm(y ~-1+x)  #  D
+
+
+# 예 6.2
+
+ sex<-factor(rep(c("M","F"), e=8))
+ type<-factor(rep(c("A","B","O","AB"), 4))
+ score<- 10*c(rnorm(8,0.5), rnorm(8,1))
+ lm(score ~ sex + type )               # 교호작용이 없는 모형 
+ lm(score ~ sex + type + sex:type )    # 교호작용이 있는 모형
+
+
+# R 6.1
+
+names(iris)<- c("SL","SW","PL","PW","SP")
+levels(iris$SP)<-c("st","vc","vg")
+zip<- function(data,k=3) rbind(head(data,k), tail(data,k))
+zip(iris)
+
+
+
+
+# R 6.2
+
+
+# levels(iris$SP)<-c("st","vc","vg")
+(  iris0<-glm(SL~SP/SW-1, family =gaussian, data=iris)   )    
+
+
+# R 6.3
+
+# levels(iris$SP)<-c("st","vc","vg")
+( iris1<-glm(SL~ SW+SP/1, family =gaussian, data=iris)   )
+
+
+
+# R 6.4
+
+# levels(iris$SP)<-c("st","vc","vg")
+levels(iris$SP)
+iris$SP<-relevel(iris$SP, ref="vc")
+levels(iris$SP)
+(  glm(SL~SW+SP/1, family =gaussian, data=iris)   )
+iris$SP<-relevel(iris$SP, ref="st")
+levels(iris$SP)
+( glm(SL~SW+SP/1, family =gaussian, data=iris)   )
+
+
+# R 6.5
+
+# options(contrasts = c("contr.helmert", "contr.poly"))
+# options(contrasts = c("contr.sum", "contr.poly"))
+# options(contrasts = c("contr.treatment", "contr.poly"))
+
+options()$contrasts
+contrasts(iris$SP)
+options(contrasts = c("contr.sum", "contr.poly"))
+contrasts(iris$SP)
+levels(iris$SP)
+glm(SL~SW+SP/1, family =gaussian, data=iris) 
+
+
+
+# R 6.6
+
+ldose <- rep(0:5, 2)
+ndead <- c(1, 4, 9, 13, 18, 20, 0, 2, 6, 10, 12, 16)
+sex <- factor(rep(c("M","F"),e=6))
+nda<-cbind(ndead, alive=20-ndead)
+xd<-data.frame(ldose, sex)
+
+bw0<- glm( nda~sex*ldose, data=xd, family = binomial(link=probit))  
+summary(bw0)
+
+
+# R 6.7
+
+( bw1<- update(bw0, .~ldose)   )
+summary( bw2<-update(bw0, .~sex+ldose )  ) 
+
+
+#  ld.ord<-ordered(ldose)
+
+
+
+# R 6.8
+
+library(ggplot2)
+
+pA<-pB<-data.frame(ldose,sex,prob=ndead/20, gg=rep("( A )",12) )
+pB$gg<-rep("( B )",12)
+pAB<- data.frame(rbind(pA,pB))
+
+xx<-seq(0,5,l=100)
+xxdm<-data.frame(ldose=xx, sex=rep(sex[1],100) )
+xxdf<-data.frame(ldose=xx, sex=rep(sex[12],100) )
+
+mf<-data.frame(rbind(xxdm,xxdf))
+y0=predict(bw0, mf, type="response")
+y2=predict(bw2, mf, type="response")
+lineA<-data.frame(mf, prob=y0, gg=rep("( A )",200))
+lineB<-data.frame(mf, prob=y2, gg=rep("( B )",200))
+lineAB<-data.frame(rbind(lineA, lineB))
+
+P<-qplot(ldose, prob, data=pAB, color=sex, shape=sex, facets=.~gg )
+P+geom_line(data = lineAB, size=1.0, facets=.~gg)
+
+
+
+
+
+#############
+
+
+# 표 6.3,  R 6.9
+
+adata<- read.table("c:/temp/admission.txt")
+zip(adata)
+
+adata0<-glm(admit~., family = binomial, data=adata) 
+summary(adata0)
+
+
+#  R 6.10
+
+newx0<-newx1<- with(adata, adata[((admit==0)&(rank==3)&(sat<=1900)),])
+newx1$sat<- newx1$sat+100
+px0<-predict(adata0,newx0,type="response")
+px1<-predict(adata0,newx1,type="response")
+data.frame(newx0, px0, px1)
+
+
+#  R 6.11
+
+eta<-predict(adata0)
+mu<-predict(adata0,type="response")  # equivalent to fitted(adata0)
+ss<-order(eta)
+
+plot(eta, mu, cex=0.75, col="blue", xlab="eta(x)", ylab="mu(x)")
+lines(eta[ss], mu[ss], col="red")
+
+
+#  R 6.12
+
+summary( lm(eta~sat+gpa+rank, data=adata) )
+
+
+
+#  R 6.13
+
+library(lattice)
+
+fdata<- adata
+fdata$admit<-fitted(adata0)
+fdata$admit<-fitted(adata0)
+afdata<-data.frame(rbind(adata,fdata), gg=rep(1:2,e=500) )
+
+xyplot(admit~gpa|rank,  layout=c(4,1),
+         group=gg, col=c("blue","brown"),
+         data=afdata, xlab="GPA", ylab="probability to admit",
+  panel=function(x,y,...){
+             panel.xyplot(x,y,...)
+             panel.lmline(x,y,...)
+   }
+)
+
+
+
+#  R 6.14
+
+crab=read.table("c:/temp/crab.txt")
+colnames(crab)=c("obs","color","spn","wd", "wt", "ns")
+crab=crab[,-1]
+crab<-with(crab, data.frame(color=factor(color), spn=factor(spn), wd, wt,ns)) 
+rbind(head(crab,3),tail(crab,3))   # zip(crab)
+
+
+
+#  R 6.15
+
+library(MASS)
+
+crab0 <- stepAIC(glm(ns~., family=poisson, data=crab))
+crab0
+
+
+##
+
+( glm(formula = ns ~ color + wt, family = poisson(link=sqrt), data = crab) )
+
+library(lattice)
+xyplot(ns~wt|color, data=crab)
+
+
+############################################
+
+
+# 표 6.4
+
+library(MASS)
+library(faraway)
+gala
+
+
+# R 6.16
+
+galax<- gala[,-2]  # Endemics 제거
+galax0<- glm(Species~., family=poisson, data=galax) 
+summary( galax0 )
+
+
+# 그림 6.5
+
+plot( x<-fitted(galax0), galax$Species, pch=16, xlab="E(Species)", ylab="Species" )
+lines( sort(x),sort(x), col="blue", lwd=2)
+
+
+# R 6.17
+
+galax1<- glm(Species~log(Area)+log(Elevation)+Nearest+Scruz+log(Adjacent), family=poisson, data=galax)
+galax2<- stepAIC( galax1 )
+summary(galax2)
+
+
+# R 6.18
+
+yh<- fitted(galax2)
+rs<- resid( galax2, type="response" )  # (y-yhat)
+rs<- rs[ordered(yh)]
+yh<-yh[ordered(yh)]
+plot(yh, rs*rs, xlab="hat(y)", ylab="(y-hat(y))^2")
+lines(yh, yh, lwd=2, col="blue")
+lines(yh, 15*yh, lty=2, col="red")
+
+
+# R 6.19
+
+rd<- resid( galax2 )   #  기본설정은 "deviance" residual 
+dpd<- sum(rd*rd)/galax2$df.res    #  13.38
+summary( galax2, dispersion=dpd )  
+rsp<-resid( galax2, "pearson" )   # Pearson residual (y-yhat)/sqrt(yhat)
+dpp<- sum(rsp*rsp)/galax2$df.res #  15.07 
+summary( galax2, dispersion=dpp )  
+
+
+# R 6.20
+
+( galax3<- glm(Species~log(Area)+Scruz+log(Adjacent), family=quasipoisson(link=log), data=galax) )
+
+# galax4<- glm(Species~log(Area)+Scruz+log(Adjacent), family=quasi(link=log,variance=mu), data=galax)
+
+
+
+# R 6.21
+
+hdata<-read.table("c:/temp/progselection.txt")
+with(hdata, table(ses,prog))
+with(hdata, do.call(rbind, tapply(read, prog, function(x) c(M = mean(x), SD = sd(x)))))
+
+
+# R 6.22
+
+library(nnet)
+h0<-multinom(prog~ read, data=hdata)
+summary(h0)
+
+
+# 그림 6.7
+
+xr <- data.frame(read=seq(20,80,l=20)) 
+prd<-predict(h0, newdata=xr, type="probs")
+prdc<-predict(h0, newdata=xr, type="class")
+matplot(seq(20,80,l=20), prd, xlab="read", ylab="probability", pch=c("a","g","v"))
+prdc
+
+
+
+# R 6.23
+
+h1<-multinom(prog~ ses+ read, data=hdata)
+summary(h1)
+
+
+
+# R 6.24
+
+xr <- data.frame( ses= c("low", "middle", "high"), read=mean(hdata$read))
+( prd<-predict(h1, newdata=xr, type="probs") )
+
+
+
+# R 6.25
+
+sc<-c("low", "middle", "high")
+xr <- data.frame( ses=rep(factor(sc,sc),e=20), 
+                      read=rep(seq(20,80,l=20),3)  )
+yxr<-cbind(xr,predict(h1, newdata=xr, type="probs"))
+
+library(reshape2)
+library(ggplot2)
+gdb <- melt(yxr, id.vars = c("ses", "read"), variable.name = "prog", value.name = "prob")
+ggplot(gdb, aes(x = read, y = prob, color =prog)) + geom_line(size=1.0) + facet_grid(.~ses)
+
+
+
+# R 6.26
+
+library(MASS)
+levels(hdata$ses)
+hdata$ses<-factor(hdata$ses, c("low","middle","high"))
+levels(hdata$ses)
+is.ordered(hdata$ses)
+is.factor(hdata$ses)
+h2<- stepAIC(polr(ses~ type +read+ write+math+sci +soc, , data=hdata))
+summary(h2)
+
+
+###
+
+
+library(nnet)
+par(mfrow=c(1,2))
+
+xr <- expand.grid( sci=seq(20,80,0.2) , soc=seq(20,80,0.2) )
+yxr<- cbind(xr, y=predict(h2, newdata=xr))
+
+palette()    #  "black"  "red"  ....   "cyan"   "magenta"  "yellow" 
+with(yxr,plot(sci,soc, type="n"))
+with(yxr, points(sci,soc, cex=0.1, col=4+as.integer(yxr$y)))
+pnts<- c(30,50,70)
+text( pnts, pnts, c("low", "middle", "high"), cex=1.2)
+
+
+h3<- multinom(ses~sci +soc, , data=hdata)
+
+yxr<- cbind(xr, y=predict(h3, newdata=xr))
+with(yxr,plot(sci,soc, type="n"))
+with(yxr, points(sci,soc, cex=0.1, col=4+as.integer(yxr$y)))
+pnts<- c(30,50,70)
+text( pnts, pnts, c("low", "middle", "high"), cex=1.2)
+
+
+######################################################### 
+

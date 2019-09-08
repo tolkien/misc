@@ -1,0 +1,32 @@
+---
+title: "knitr test를 위한 문서"
+output: pdf_document
+---
+knitr-test.rmd로 저장한 후 RStudio 화면의 knit HTML 버튼을 누르면 knitr-test.html 파일이 생성됩니다. 
+
+* list 1
+* list 2
+     + sub item 1
+     + sub item 2
+
+change to *italic*
+
+change to **bold**
+
+A1      |  A2
+--------|---------
+cell 11 | cell 12
+cell 21 | cell 22
+
+$F(x) = \int_{\infty} ^{x} f(y) dy$
+
+
+```{r}
+summary(iris$Sepal.Length)
+```
+
+```{r, echo=FALSE}
+library(ggplot2)
+ggplot(iris,aes(x=Sepal.Length,y=Sepal.Width,color=Species))+geom_point()
+```
+
