@@ -1,0 +1,272 @@
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\hypersetup{unicode=true,
+            pdftitle={NH3 -\textgreater{} HNO3로 산화시 손실되는 NH3 함량 예측 및 분석},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\usepackage{longtable,booktabs}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\providecommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+
+  \title{NH3 -\textgreater{} HNO3로 산화시 손실되는 NH3 함량 예측 및 분석}
+    \pretitle{\vspace{\droptitle}\centering\huge}
+  \posttitle{\par}
+    \author{}
+    \preauthor{}\postauthor{}
+    \date{}
+    \predate{}\postdate{}
+  
+
+\begin{document}
+\maketitle
+
+어떤 화학공장에서 \(NH_{3}\)를 \(HNO_{3}\)로 산화시키는 공정을 가지고
+있다. 이 산화공정에 미치는 중요한 변수로
+\[X_1 : 공정의 작업속도 (speed)\] \[X_2 : 냉각수의 온도 (temp)\] 를
+취하여 주고, \(Y\)를 \(NH_3\)를 \(HNO_3\)로 바꿀 때, 손실되는 \(NH_3\)의
+함량\%(loss)로 잡아두었다.
+
+\section{\texorpdfstring{Excel file로 되어 있는 자료를 \(R\)로 읽어
+들이기}{Excel file로 되어 있는 자료를 R로 읽어 들이기}}\label{excel-fileuxb85c-uxb418uxc5b4-uxc788uxb294-uxc790uxb8ccuxb97c-ruxb85c-uxc77duxc5b4-uxb4e4uxc774uxae30}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(xlsx)}
+\NormalTok{chemical =}\StringTok{ }\KeywordTok{read.xlsx}\NormalTok{(}\StringTok{"./data/chemical.xlsx"}\NormalTok{, }\DecValTok{1}\NormalTok{)}
+\KeywordTok{head}\NormalTok{(chemical, }\DecValTok{3}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   id speed temp loss
+## 1  1    70   20   15
+## 2  2    80   27   42
+## 3  3    75   25   37
+\end{verbatim}
+
+\section{회귀모형
+적합하기}\label{uxd68cuxadc0uxbaa8uxd615-uxc801uxd569uxd558uxae30}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{chemical.lm =}\StringTok{ }\KeywordTok{lm}\NormalTok{(loss }\OperatorTok{~}\StringTok{ }\NormalTok{speed }\OperatorTok{+}\StringTok{ }\NormalTok{temp, }\DataTypeTok{data=}\NormalTok{chemical)}
+\KeywordTok{summary}\NormalTok{(chemical.lm)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = loss ~ speed + temp, data = chemical)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -7.7699 -2.4093  0.2795  3.4019  4.9654 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept) -47.6243     9.4580  -5.035 0.000704 ***
+## speed         0.4216     0.2350   1.794 0.106360    
+## temp          1.9217     0.6977   2.754 0.022316 *  
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 4.465 on 9 degrees of freedom
+## Multiple R-squared:  0.8539, Adjusted R-squared:  0.8214 
+## F-statistic:  26.3 on 2 and 9 DF,  p-value: 0.0001741
+\end{verbatim}
+
+추정된 회귀방정식은 \[\hat{Y} = -47.624 + 0.422*speed + 1.922*temp\]
+이고, 이 모형에 대한 결정계수는 \(R^2 = 0.854\)로서 중회귀모형이
+종속변수 loss의 총변동을 \(85.4%\) 정도 설경하고 있다는 것을 나타낸다.
+변수 speed의 \(t_0\)값이
+\[t_0 = \frac{\hat{\beta}_1}{\hat{\beta}_1의 표준오차} = {0.422 \over 0.235} = 1.794\]
+로서, 유의확률 \(p-값 = 0.106\)임을 보여준다. 따라서,
+\[H_0 : \beta_1 = 0\] \[H_1 : \beta_1 \not = 0\] 의 검정에서 유의수준
+\(\alpha = 0.05\)에서 귀무가설을 기각하지 못한다. 그러나 temp의
+\(t_0값 = 2.754\)이고, 유의확률 \(p-값 = 0.022\)로서 유의수준
+\(\alpha = 0.05\)에서 \(H_0 : \beta_2 = 0\)을 기각시킨다. 따라서, temp는
+loss를 설명하는데 유의한 변수이다. 이와 같은 사실은 아래
+추가변수그림에서 알 수 있다.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(car)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Loading required package: carData
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{avPlots}\NormalTok{(chemical.lm)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{homework_files/figure-latex/unnamed-chunk-3-1.pdf}
+
+\section{분산분석표
+작성하기}\label{uxbd84uxc0b0uxbd84uxc11duxd45c-uxc791uxc131uxd558uxae30}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{anova}\NormalTok{(chemical.lm)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Analysis of Variance Table
+## 
+## Response: loss
+##           Df Sum Sq Mean Sq F value    Pr(>F)    
+## speed      1 897.55  897.55 45.0179 8.758e-05 ***
+## temp       1 151.26  151.26  7.5867   0.02232 *  
+## Residuals  9 179.44   19.94                      
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+\end{verbatim}
+
+이 결과에서 다음과 같은 분산분석표를 정리할 수 있다.
+
+\begin{longtable}[]{@{}rcccc@{}}
+\toprule
+요인 & 자유도 & 제곱합 & 평균제곱 & \(F_0\)\tabularnewline
+\midrule
+\endhead
+회귀 & 2 & 1048.81 & 425.41 & 26.3\tabularnewline
+잔차 & 9 & 179.44 & 19.94 &\tabularnewline
+계 & 11 & 1076.99 & &\tabularnewline
+\bottomrule
+\end{longtable}
+
+\(F-값 = 26.3\)에 대한 유의확률이 \(0.00017\)로 매우 작아서 중회귀모형이
+매우 유의함을 알 수 있다. 또, 오차분산 \(\sigma^2\)의 추정치
+\(MSE = 19.94\)임을 알 수 있다.
+
+\section{잔차산점도
+그리기}\label{uxc794uxcc28uxc0b0uxc810uxb3c4-uxadf8uxb9acuxae30}
+
+독립변수 speed, temp 및 loss의 추정값과 잔차의 관계를 보기 위한 산점도를
+그려보자.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plot}\NormalTok{(chemical.lm}\OperatorTok{$}\NormalTok{fitted.values, chemical.lm}\OperatorTok{$}\NormalTok{residuals)}
+\KeywordTok{abline}\NormalTok{(}\DataTypeTok{h=}\DecValTok{0}\NormalTok{, }\DataTypeTok{lty=}\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{homework_files/figure-latex/unnamed-chunk-5-1.pdf}
+추정값과 잔차의 산점도를 보면 오른쪽 하단의 특이점을 제외하고는 뚜렷한
+현상을 나타내고 있지 않다.
+
+
+\end{document}

@@ -1,0 +1,68 @@
+---
+title: "NH3 -> HNO3로 산화시 손실되는 NH3 함량 예측 및 분석"
+author: "조용일"
+date: "November 17, 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+어떤 화학공장에서 $NH_{3}$를 $HNO_{3}$로 산화시키는 공정을 가지고 있다. 이 산화공정에 미치는 중요한 변수로
+  $$X_1 : 공정의 작업속도 (speed)$$
+  $$X_2 : 냉각수의 온도 (temp)$$
+를 취하여 주고, $Y$를 $NH_3$를 $HNO_3$로 바꿀 때, 손실되는 $NH_3$의 함량%(loss)로 잡아두고, Excel file로 되어 있는 자료를 $R$로 읽어 들였다.
+```{R, echo=FALSE, results="hide", message=FALSE}
+library(xlsx)
+```
+```{R}
+chemical = read.xlsx("./data/chemical.xlsx", 1)
+head(chemical, 3)
+```
+
+### 회귀모형 적합하기
+```{R}
+chemical.lm = lm(loss ~ speed + temp, data=chemical)
+summary(chemical.lm)
+```
+ 추정된 회귀방정식은
+ $$\hat{Y} = -47.624 + 0.422*speed + 1.922*temp$$
+ 이고, 이 모형에 대한 결정계수는 $R^2 = 0.854$로서 중회귀모형이 종속변수 loss의 총변동을 $85.4%$ 정도 설경하고 있다는 것을 나타낸다. 변수 speed의 $t_0$값이
+  $$t_0 = \frac{\hat{\beta}_1}{\hat{\beta}_1의 표준오차} = {0.422 \over 0.235} = 1.794$$
+로서, 유의확률 $p-값 = 0.106$임을 보여준다. 따라서,
+  $$H_0 : \beta_1 = 0$$
+  $$H_1 : \beta_1 \not = 0$$
+의 검정에서 유의수준 $\alpha = 0.05$에서 귀무가설을 기각하지 못한다. 그러나 temp의 $t_0값 = 2.754$이고, 유의확률 $p-값 = 0.022$로서 유의수준 $\alpha = 0.05$에서 $H_0 : \beta_2 = 0$을 기각시킨다. 따라서, temp는 loss를 설명하는데 유의한 변수이다. 이와 같은 사실은 아래 추가변수그림에서 알 수 있다.
+```{R, echo=FALSE, results="hide", message=FALSE}
+library(car)
+```
+```{R}
+avPlots(chemical.lm)
+```
+
+### 분산분석표 작성하기
+```{R}
+anova(chemical.lm)
+```
+
+ 이 결과에서 다음과 같은 분산분석표를 정리할 수 있다.
+ 
+|요인|자유도|제곱합|평균제곱|$F_0$|
+|---:|:----:|:----:|:------:|:---:|
+|회귀| 2 | 1048.81 | 425.41 | 26.3 |
+|잔차| 9 | 179.44 | 19.94 | |
+| 계 | 11 | 1076.99 | | |
+
+$F-값 = 26.3$에 대한 유의확률이 $0.00017$로 매우 작아서 중회귀모형이 매우 유의함을 알 수 있다. 또, 오차분산 $\sigma^2$의 추정치 $MSE = 19.94$임을 알 수 있다.
+
+### 잔차산점도 그리기
+
+ 독립변수 speed, temp 및 loss의 추정값과 잔차의 관계를 보기 위한 산점도를 그려보자.
+```{R}
+plot(chemical.lm$fitted.values, chemical.lm$residuals)
+abline(h=0, lty=2)
+with(chemical.lm, text(fitted.values, residuals, labels = names(fitted.values), pos = 4))
+```
+
+ 추정값과 잔차의 산점도를 보면 12번 특이점을 제외하고는 뚜렷한 현상을 나타내고 있지 않다.
