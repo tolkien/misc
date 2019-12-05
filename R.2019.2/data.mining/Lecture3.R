@@ -132,3 +132,35 @@ plot(e5.prun.tree, uniform=T, compress=T, margin=0.1)
 text(e5.prun.tree, use.n=T, col="blue")
 summary(e5.prun.tree)
 
+# regression tree model, p96
+library(MASS)
+Boston$chas = factor(Boston$chas)
+Boston$rad  = factor(Boston$rad)
+summary(Boston)
+library(rpart)
+Boston.ctrl = rpart.control(xval=10, cp=0, minsplit = nrow(Boston)*0.05)
+Boston.fit = rpart(medv ~ ., data=Boston, method="anova", control=Boston.ctrl)
+print(Boston.fit)
+printcp(Boston.fit)
+0.24125+0.035312
+Boston.prun = prune(Boston.fit, cp=0.0061)
+print(Boston.prun)
+plot(Boston.prun, uniform = T, compress = T, margin = 0.1)
+text(Boston.prun, use.n = T, col="blue")
+summary(Boston.prun)
+Boston$medv.hat = predict(Boston.prun, newdata = Boston, type="vector")
+mean((Boston$medv - Boston$medv.hat)^2) # MSE
+plot(Boston$medv, Boston$medv.hat, xlab="Observed", ylab="Fitted")
+abline(0,1)
+# split Boston into train, test
+set.seed(1234)
+Boston.idx = sample(1:nrow(Boston), round(nrow(Boston)*0.7))
+Boston.train = Boston[Boston.idx,]
+Boston.test  = Boston[-Boston.idx,]
+Boston.fit = rpart(medv ~ ., data = Boston.train, method="anova", control = Boston.ctrl)
+printcp(Boston.fit)
+0.16719+0.018040
+Boston.prun = prune(Boston.fit, cp = 0.00604221)
+print(Boston.prun)
+Boston.hat.test = predict(Boston.prun, newdata = Boston.test, type="vector")
+mean((Boston.test$medv - Boston.hat.test)^2)
