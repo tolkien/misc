@@ -42,3 +42,38 @@ sum(is.na(Cars93))
 # install.packages("VIM")
 require("VIM")
 matrixplot(Cars93, sortby = "Weight", cex.axis=0.6)
+
+# p56 class & method
+length(methods(summary))
+class(Cars93$Cylinders)
+summary(Cars93$Cylinders)
+summary(as.character(Cars93$Cylinders))
+
+# p58 apply
+func <- function(x) {
+    return (sum (is.na(x)))
+}
+na = apply(X = Cars93, MARGIN = 2, FUN = func)
+na[ na > 0]
+
+p = ncol(Cars93)
+na_for = numeric(p)
+for (i in 1:p) {
+    na_for[i] = func(Cars93[, i])
+}
+identical(as.numeric(na), na_for)
+
+# p59 lapply
+#install.packages("robCompositions")
+library("robCompositions")
+m = robCompositions::missPatterns(Cars93)
+lapply(m, length)
+sapply(m, length)
+
+# p61 aggregate
+args(aggregate)
+methods(aggregate)
+args(aggregate.data.frame)
+aggregate(Cars93[, c("Horsepower", "Weight")], by = list(Cars93$Cylinders), median)
+
+# p62 dplyr
